@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TextInput, StatusBar } from 'react-native';
 import CoinItem from './components/CoinItem'
 
 export default function App() {
 
   const [coins, setCoins] = useState([])
+  const [search, setSearch] = useState("")
+  const [refresh, setRefresh] = useState(false)
 
   const loadData = async()=>{
     const res = await fetch(
@@ -22,15 +23,38 @@ export default function App() {
   return (
     <View style={styles.container}>
       
+      <StatusBar backgroundColor='#141414'/>
+      
+      <View style={styles.header}>
+        
+        <Text style={styles.title}>CryptoPedia</Text>
+        
+        <TextInput style={styles.searchInput}
+         placeholder = 'Find the Coin...'
+         placeholderTextColor = 'gray'
+         onChangeText={(text)=>text && setSearch(text)}
+        />
+
+      </View>
+
       <FlatList 
-      data={coins}
+      style={styles.list}
+      data={coins.filter(
+        (coin)=>
+        coin.name.toLowerCase().includes(search) ||
+        coin.symbol.toLowerCase().includes(search)
+        )}
       renderItem={({item})=>{
         return <CoinItem coin={item}/>
       }}
-      />
-
-      <StatusBar style="auto" />
-    
+      showsVerticalScrollbarIndicator={false}
+      refreshing={refresh} 
+      onRefresh={async()=>{
+        setRefresh(true)
+        await loadData()
+        setRefresh(false)
+      }}
+      />    
     </View>
   );
 }
@@ -42,4 +66,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  title: {
+    color: '#fff',
+    marginTop: 30,
+    fontSize: 20
+  },
+  list:{
+    width: '90%',
+    marginTop: 20
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '90%'
+  },
+  searchInput:{
+
+    color: '#fff',
+    borderBottomColor: '#4657CE',
+    borderBottomWidth: 1,
+    width: '40%',
+    textAlign: 'left'  
+  }
 });

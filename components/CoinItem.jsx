@@ -5,13 +5,25 @@ export default function CoinItem({coin}) {
 	return(
 		<View style={styles.containerItems}>
 			<View style={styles.coinName}>
-				<Text style={styles.text}>{coin.name}</Text>
 				<Image
 					style={styles.image}  
 					source={{uri: coin.image}}
-				/>				
+				/>	
+				<View style={styles.textName}>
+					<Text style={styles.text}>{coin.name}</Text>
+					<Text style={styles.symbol}>{coin.symbol}</Text>					
+				</View>			
 			</View>
-			<Text style={styles.text}>${coin.current_price}</Text>
+			<View>
+				<Text style={styles.text}>${coin.current_price}</Text>
+				<Text style={[
+					styles.currentPrice,
+					coin.price_change_percentage_24h > 0 ?
+					styles.percentageGreen : styles.percentageRed
+					]}>
+					{coin.price_change_percentage_24h}
+				</Text>				
+			</View>
 		</View>
 
 	)
@@ -25,13 +37,30 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between' 
 	},
 	coinName: {
-		flexDirection: 'row-reverse'
+		flexDirection: 'row'
 	},
 	image: {
 		width: 30,
 		height: 30
 	},
 	text: {
-		color: '#ffffff'
+		color: '#ffffff',
+		textAlign: 'right'
+	},
+	symbol: {
+		color: 'gray',
+		textTransform: 'uppercase',
+	},
+	textName: {
+		marginLeft: 10
+	},
+	currentPrice: {
+		textAlign: 'right',
+	},
+	percentageRed: {
+		color: 'red',
+	},
+	percentageGreen: {
+		color: 'green',
 	}
 })
