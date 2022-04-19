@@ -12,7 +12,6 @@ export default function App() {
     const res = await fetch(
       'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false')
     const data = await res.json();
-    console.log(data);
     setCoins(data)
   }
 
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    color: '#fff',
+    color: 'rgb(242,199,0)',
     marginTop: 30,
     fontSize: 20
   },

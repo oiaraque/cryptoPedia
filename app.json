@@ -4,7 +4,7 @@
     "slug": "cryptoPedia",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/tengu.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
